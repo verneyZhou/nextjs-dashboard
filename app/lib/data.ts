@@ -18,12 +18,12 @@ export async function fetchRevenue() {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-
+    console.log('Fetching revenue data...');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // sql查询收入revenque数据
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    // console.log('Data fetch completed after 3 seconds.');
+    console.log('Data fetch completed after 3 seconds.');
 
     return data.rows;
   } catch (error) {
@@ -34,6 +34,9 @@ export async function fetchRevenue() {
 
 export async function fetchLatestInvoices() {
   try {
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // 获取最后 5 张发票
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -57,8 +60,9 @@ export async function fetchCardData() {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`; // 查询发票总数量
+    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`; // 查询客户总数量
+    // 状态筛选: 已支付总额，待支付总额
     const invoiceStatusPromise = sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
@@ -69,6 +73,8 @@ export async function fetchCardData() {
       customerCountPromise,
       invoiceStatusPromise,
     ]);
+    console.log('Data fetch completed.',data[0].rows[0], data[1].rows[0], data[2].rows[0]);
+    // { count: '15' } { count: '10' } { paid: '118516', pending: '125632' }
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
@@ -95,6 +101,7 @@ export async function fetchFilteredInvoices(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
+    // 查询发票列表
     const invoices = await sql<InvoicesTable>`
       SELECT
         invoices.id,
@@ -125,6 +132,7 @@ export async function fetchFilteredInvoices(
 
 export async function fetchInvoicesPages(query: string) {
   try {
+    // 查询总页面
     const count = await sql`SELECT COUNT(*)
     FROM invoices
     JOIN customers ON invoices.customer_id = customers.id
@@ -146,6 +154,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
+    // 获取发票详情
     const data = await sql<InvoiceForm>`
       SELECT
         invoices.id,
@@ -162,6 +171,7 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
+    // return null;
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -171,6 +181,7 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomers() {
   try {
+    // 查询客户列表
     const data = await sql<CustomerField>`
       SELECT
         id,

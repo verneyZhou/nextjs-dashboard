@@ -1,8 +1,7 @@
-## Next.js App Router Course - Starter
+## Next.js dashboard-app
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+[nextjs.cn](https://www.nextjs.cn/docs/getting-started)
 
 
 
@@ -23,3 +22,22 @@ For more information, see the [course curriculum](https://nextjs.org/learn) on t
 部署：
 - npm run build
 - npm run start
+
+<!-- 账号密码 -->
+电子邮件：user@nextmail.com
+密码：123456
+
+
+
+- [vercel地址](https://vercel.com/verneyzhous-projects/nextjs-dashboard)
+- [gthub地址](https://github.com/verneyZhou/nextjs-dashboard)
+
+
+## 功能
+
+- vercel自动部署，添加vercel Postgres数据库
+- 发票数据CRUD
+- 页面预渲染
+- 登录权限校验
+
+
