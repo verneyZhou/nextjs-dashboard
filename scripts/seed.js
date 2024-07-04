@@ -7,6 +7,7 @@ const {
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
+// 用户信息
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -48,7 +49,7 @@ async function seedUsers(client) {
   }
 }
 
-async function seedInvoices(client) {
+async function seedInvoices(client) { // 添加发票信息
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
@@ -88,7 +89,7 @@ async function seedInvoices(client) {
   }
 }
 
-async function seedCustomers(client) {
+async function seedCustomers(client) { // 添加客户信息
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
@@ -127,7 +128,7 @@ async function seedCustomers(client) {
   }
 }
 
-async function seedRevenue(client) {
+async function seedRevenue(client) { // 添加交易信息
   try {
     // Create the "revenue" table if it doesn't exist
     const createTable = await client.sql`
@@ -162,6 +163,7 @@ async function seedRevenue(client) {
   }
 }
 
+// 向云数据库插入数据
 async function main() {
   const client = await db.connect(); // 连接数据库
 

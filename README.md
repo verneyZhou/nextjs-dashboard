@@ -30,14 +30,15 @@
 
 
 - [vercel地址](https://vercel.com/verneyzhous-projects/nextjs-dashboard)
-- [gthub地址](https://github.com/verneyZhou/nextjs-dashboard)
+- [github地址](https://github.com/verneyZhou/nextjs-dashboard)
 
 
 ## 功能
 
 - vercel自动部署，添加vercel Postgres数据库
-- 发票数据CRUD
+- 发票数据CRUD，sql操作
 - 页面预渲染
 - 登录权限校验
+- tailwindcss，路由
 
 
